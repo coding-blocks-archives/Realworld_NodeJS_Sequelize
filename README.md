@@ -8,4 +8,17 @@ This is an implementation of Thinkster's realworld.io API using:
 - **Database**	: MySQL/SQLite/Postgres
 - **ORM**	: Sequelize
 
+## Setup Database
+
+```bash
+mysql -u root
+```
+
+```mysql-psql
+ create database realworlddb;
+ create user realworlduser with password 'realworldpass';
+ grant all privileges on realworlddb.* to realworlduser;
+ flush privileges;
+```
+
 
