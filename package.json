@@ -1,0 +1,24 @@
+{
+  "name": "realworld_sequelize",
+  "version": "1.0.0",
+  "description": "A real world nodejs project",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coding-blocks-archives/Realworld_NodeJS_Sequelize.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/coding-blocks-archives/Realworld_NodeJS_Sequelize/issues"
+  },
+  "homepage": "https://github.com/coding-blocks-archives/Realworld_NodeJS_Sequelize#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mysql2": "^1.6.4",
+    "sequelize": "^4.42.0"
+  }
+}
