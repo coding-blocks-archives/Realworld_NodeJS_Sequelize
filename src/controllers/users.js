@@ -12,7 +12,7 @@ async function createUser(userOpts) {
   }
 
   const user = await Users.create({
-    userOpts, // TODO: Password not in plaintext
+    ...userOpts, // TODO: Password not in plaintext
   })
 
   if (!user) {
@@ -20,9 +20,33 @@ async function createUser(userOpts) {
   }
 
   return user
+}
 
+async function verifyUser(userOpts) {
+  if (!userOpts.email) {
+    throw new Error('Did not supply email')
+  }
+  if (!userOpts.password) {
+    throw new Error('Did not supply password')
+  }
+
+  const user = await Users.findOne({
+    where: {
+      email: userOpts.email
+    }
+  })
+  if (!user) {
+    throw new Error('No user with given email address')
+  }
+
+  if (user.password !== userOpts.password) {
+    throw new Error('Password does not match')
+  }
+
+  return user
 }
 
 module.exports = {
-  createUser
+  createUser,
+  verifyUser
 }
