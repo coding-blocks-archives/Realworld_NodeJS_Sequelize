@@ -1,4 +1,5 @@
 const { Users } = require('../models')
+const { createJwt } = require('../utils/jwt')
 
 async function createUser(userOpts) {
   if (!userOpts.username) {
@@ -19,7 +20,18 @@ async function createUser(userOpts) {
     throw new Error('Error creating user')
   }
 
-  return user
+  const createdUser = await Users.findOne({
+    attributes: ['email', 'username', 'bio', 'image'],
+    where: {
+      username: user.username
+    }
+  })
+  const token = await createJwt(createdUser.get())
+
+  return {
+    ...createdUser.get(),
+    token
+  }
 }
 
 async function verifyUser(userOpts) {
@@ -31,10 +43,12 @@ async function verifyUser(userOpts) {
   }
 
   const user = await Users.findOne({
+    attributes: ['email', 'username', 'bio', 'image', 'password'],
     where: {
-      email: userOpts.email
+      email: userOpts.email,
     }
   })
+
   if (!user) {
     throw new Error('No user with given email address')
   }
@@ -42,8 +56,13 @@ async function verifyUser(userOpts) {
   if (user.password !== userOpts.password) {
     throw new Error('Password does not match')
   }
-
-  return user
+  const token = await createJwt(user.get())
+  const userJson = {
+    ...user.get(),
+    token
+  }
+  delete userJson.password
+  return userJson
 }
 
 module.exports = {
